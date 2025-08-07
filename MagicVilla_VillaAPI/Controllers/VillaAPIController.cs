@@ -13,7 +13,7 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<VillaDTO>> GetVillas()
     {
-        //deneme
+
         return VillaStore.villaList;
     }
 
