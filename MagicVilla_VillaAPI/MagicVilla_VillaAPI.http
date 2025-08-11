@@ -1,6 +1,7 @@
-@MagicVilla_VillaAPI_HostAddress = http://localhost:5030
+@MagicVilla_VillaAPI_HostAddress = https://localhost:7253
 
-GET {{MagicVilla_VillaAPI_HostAddress}}/weatherforecast/
+GET {{MagicVilla_VillaAPI_HostAddress}}/api/VillaAPI
+
 Accept: application/json
 
 ###
