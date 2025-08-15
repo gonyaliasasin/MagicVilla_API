@@ -1,4 +1,5 @@
-﻿using MagicVilla_VillaAPI.Data;
+﻿using AutoMapper;
+using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using Microsoft.AspNetCore.JsonPatch;
@@ -21,10 +22,12 @@ public class VillaAPIController : ControllerBase
     //}
 
     private readonly ApplicationDbContext _db;
+    private readonly IMapper _mapper;
 
-    public VillaAPIController(ApplicationDbContext db)
+    public VillaAPIController(ApplicationDbContext db, IMapper mapper)
     {
         _db = db;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -32,7 +35,8 @@ public class VillaAPIController : ControllerBase
     public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
     {
         //_logger.LogInformation("Getting all villas");
-        return Ok(await _db.Villas.ToListAsync());
+        IEnumerable<Villa> villaList = await _db.Villas.ToListAsync();
+        return Ok(_mapper.Map<VillaDTO>(villaList));
     }
 
 
