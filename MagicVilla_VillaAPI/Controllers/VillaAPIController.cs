@@ -29,7 +29,7 @@ public class VillaAPIController : ControllerBase
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task <ActionResult<IEnumerable<VillaDTO>>> GetVillas()
+    public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
     {
         //_logger.LogInformation("Getting all villas");
         return Ok(await _db.Villas.ToListAsync());
@@ -54,7 +54,7 @@ public class VillaAPIController : ControllerBase
         {
             return NotFound();
         }
-            
+
         return Ok(villa);
     }
 
@@ -97,7 +97,7 @@ public class VillaAPIController : ControllerBase
 
         await _db.Villas.AddAsync(model);
         await _db.SaveChangesAsync();
-        
+
         return CreatedAtRoute("GetVilla", new { id = model.Id }, model);
     }
 
@@ -120,7 +120,7 @@ public class VillaAPIController : ControllerBase
         {
             return NotFound();
         }
-        
+
         _db.Villas.Remove(villa);
         await _db.SaveChangesAsync();
         return NoContent();
@@ -131,13 +131,29 @@ public class VillaAPIController : ControllerBase
     [HttpPut("{id:int}", Name = "UpdateVilla")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult UpdateVilla(int id, [FromBody]VillaUpdateDTO villaDTO)
+    public async Task<IActionResult> UpdateVilla(int id, [FromBody] VillaUpdateDTO villaDTO)
     {
-        
+
         if (villaDTO == null || id != villaDTO.Id)
         {
             return BadRequest();
         }
+
+        //var item = await _db.Villas.FirstOrDefaultAsync(x => x.Id == id);
+        //if (item is not null)
+        //{
+        //    item.Amenity= villaDTO.Amenity;
+        //    item.Details = villaDTO.Details;
+        //    item.Id = villaDTO.Id;
+        //    item.ImageUrl = villaDTO.ImageUrl;
+        //    item.Name = villaDTO.Name;
+        //    item.Occupancy = villaDTO.Occupancy;
+        //    item.Rate = villaDTO.Rate;
+        //    item.Sqft= villaDTO.Sqft;
+        //    item.UpdatedDate = DateTime.UtcNow;
+        //    item.CreatedDate = DateTime.UtcNow;
+        //}
+
 
         //var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
         //villa.Name = villaDTO.Name;
@@ -155,8 +171,9 @@ public class VillaAPIController : ControllerBase
             Rate = villaDTO.Rate,
             Sqft = villaDTO.Sqft
         };
-        _db.Villas.Update(model);
-        _db.SaveChanges();
+
+        _db.Villas.Update(model );
+        await _db.SaveChangesAsync();
         return NoContent();
     }
 
@@ -189,7 +206,7 @@ public class VillaAPIController : ControllerBase
         {
             return BadRequest();
         }
-        
+
         patchDTO.ApplyTo(villaDTO, ModelState);
 
         Villa model = new Villa()

@@ -14,7 +14,7 @@ namespace MagicVilla_VillaAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Villa>().HasData(
-                new Villa
+              new Villa
                 {
                     Id = 1,
                     Name = "Royal Villa",
@@ -74,7 +74,7 @@ namespace MagicVilla_VillaAPI.Data
                   Amenity = "",
                   CreatedDate = DateTime.Now
               }
-                );
+             );
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
