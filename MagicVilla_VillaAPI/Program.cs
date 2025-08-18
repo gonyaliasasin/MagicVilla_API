@@ -3,7 +3,6 @@
 using MagicVilla_VillaAPI;
 using MagicVilla_VillaAPI.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,22 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Host.UseSerilog();
 
-// Add services to the container.
-builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
-builder.Services.AddControllers(option => {
-    //option.ReturnHttpNotAcceptable = true;
-}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+builder.Services.AddControllers(option => {}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddMvc();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
